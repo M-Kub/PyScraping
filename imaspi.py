@@ -11,4 +11,3 @@ images = bs.find_all('img',
 for image in images:
     print(image['src'])
 print(len(images))
-
