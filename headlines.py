@@ -17,8 +17,8 @@ def getLink(url):
     return links
 
 
-def adresse(url):
-    liste = getLink(url)
+def adresse(self):
+    liste = getLink(self)
     for link in liste:
         print(link.get('href'))
     print(len(liste))
