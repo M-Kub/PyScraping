@@ -25,3 +25,56 @@ def getInternalLinks(bs, includeUrl):
                 else:
                     internalLinks.append(link.attrs['href'])
     return internalLinks
+
+
+# Retrieves list of external links found on page
+def getExternalLinks(bs, excludeUrl):
+    externalLinks = []
+    # Finds all links that start with "https" that dont contain current URL
+    for link in bs.find_all('a', href=re.compile('^(https|www)((?!' + excludeUrl + ').)*$')):
+        if link.attrs['href'] is not None:
+            if link.attrs['href'] not in externalLinks:
+                externalLinks.append(link.attrs['href'])
+    return externalLinks
+
+
+def getRandomExternalLink(startingPage):
+    html = urlopen(startingPage)
+    bs = BeautifulSoup(html, 'html.parser')
+    externalLinks = getExternalLinks(bs, urlparse(startingPage).netloc)
+    if len(externalLinks) == 0:
+        print('No external Links, look somewhere else.')
+        domain = '{}://{}'.format(urlparse(startingPage).scheme, urlparse(startingPage).netloc)
+        internalLinks = getInternalLinks(bs, domain)
+        return getRandomExternalLink(internalLinks[random.randint(0, len(internalLinks)-1)])
+    else:
+        return externalLinks[random.randint(0, len(externalLinks)-1)]
+
+
+def followExternalOnly(startingSite):
+    externalLink = getRandomExternalLink(startingSite)
+    print('Random external link is: {}'.format(externalLink))
+    followExternalOnly(externalLink)
+
+
+followExternalOnly('https://oreilly.com')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
