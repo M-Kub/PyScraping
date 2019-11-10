@@ -46,9 +46,9 @@ def getRandomExternalLink(startingPage):
         print('No external Links, look somewhere else.')
         domain = '{}://{}'.format(urlparse(startingPage).scheme, urlparse(startingPage).netloc)
         internalLinks = getInternalLinks(bs, domain)
-        return getRandomExternalLink(internalLinks[random.randint(0, len(internalLinks)-1)])
+        return getRandomExternalLink(internalLinks[random.randint(0, len(internalLinks) - 1)])
     else:
-        return externalLinks[random.randint(0, len(externalLinks)-1)]
+        return externalLinks[random.randint(0, len(externalLinks) - 1)]
 
 
 def followExternalOnly(startingSite):
@@ -58,23 +58,3 @@ def followExternalOnly(startingSite):
 
 
 followExternalOnly('https://oreilly.com')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
